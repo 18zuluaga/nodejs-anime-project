@@ -28,12 +28,16 @@ routerAnime.post("/postAnimes", async (req, res) => {
     const newAnime = {
         id: animes.length + 1,
         title: req.body.title,
-        genre: req.body.genre
+        genre: req.body.genre,
+        studioId: req.body.studioId
     };
 
     animes.push(newAnime);
     await writeAnimesFs(animes);
-    res.status(201).send(`Anime created successfully ${JSON.stringify(newAnime)}`);
+    res.status(201).json({
+        message: "Anime creado exitosamente",
+        anime: newAnime
+    });
 });
 
 routerAnime.get("/", async (req, res) => {

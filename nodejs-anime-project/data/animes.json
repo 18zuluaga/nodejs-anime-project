@@ -3,5 +3,34 @@
     "id": 2,
     "title": "Naruto",
     "genre": "drama"
+  },
+  {
+    "id": 2,
+    "title": "Nombre del anime",
+    "genre": "Género del anime"
+  },
+  {
+    "id": 3,
+    "title": "Nombre del anime",
+    "genre": "Género del anime",
+    "studioId": 1
+  },
+  {
+    "id": 4,
+    "title": "Nombre del anime",
+    "genre": "Género del anime",
+    "studioId": 1
+  },
+  {
+    "id": 5,
+    "title": "Nombre del anime",
+    "genre": "Género del anime",
+    "studioId": 1
+  },
+  {
+    "id": 6,
+    "title": "Nombre del anime",
+    "genre": "Género del anime",
+    "studioId": 1
   }
 ]
