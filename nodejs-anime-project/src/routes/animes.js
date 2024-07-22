@@ -8,19 +8,21 @@ const _filename = fileURLToPath(import.meta.url);
 const _dirname = path.dirname(_filename)
 
 
-const animesFilePath = path.join(_dirname, "../../data/animes.json");
+const dataFilePath = path.join(_dirname, "../../data/animes.json");
 
 const readAnimesFs = async () => {
     try{
-        const animes = await fs.readFile(animesFilePath)
-        return JSON.parse(animes);
+        const data = await fs.readFile(dataFilePath)
+        const dataJson = JSON.parse(data);
+        const animes = dataJson.animes
+        return animes;
     }catch(err){
         throw new Error(`Error en la promesa ${err}`)
     }
 };
 
 const writeAnimesFs = async (animes) => {
-    await fs.writeFile(animesFilePath, JSON.stringify(animes, null, 2));
+    await fs.writeFile(dataFilePath, JSON.stringify(animes, null, 2));
 };
 
 routerAnime.post("/postAnimes", async (req, res) => {
@@ -33,7 +35,7 @@ routerAnime.post("/postAnimes", async (req, res) => {
     };
 
     animes.push(newAnime);
-    await writeAnimesFs(animes);
+    await writeAnimesFs({"animes": animes});
     res.status(201).json({
         message: "Anime creado exitosamente",
         anime: newAnime
@@ -45,16 +47,17 @@ routerAnime.get("/", async (req, res) => {
     res.json(animes);
 });
 
-routerAnime.get("/:animeId", async (req, res) => {
+routerAnime.get("/animeId", async (req, res) => {
     const animes = await readAnimesFs();
-    const anime = animes.find(a => a.id === parseInt(req.params.animeId));
+    console.log(req)
+    const anime = animes.find(a => a.id === parseInt(req.query.id));
     if(!anime) return res.status(404).send("Anime not found");
     res.json(anime)
 });
 
-routerAnime.put("/:id", async (req, res) => {
+routerAnime.put("/updateAnime", async (req, res) => {
     const animes = await readAnimesFs();
-    const indexAnime = animes.findIndex(a => a.id === parseInt(req.params.id));
+    const indexAnime = animes.findIndex(a => a.id === parseInt(req.query.id));
     if(indexAnime === -1) return res.status(404).send("Anime not found");
     const updateAnime = {
         ...animes[indexAnime],
@@ -63,24 +66,13 @@ routerAnime.put("/:id", async (req, res) => {
     }
 
     animes[indexAnime] = updateAnime;
-    await writeAnimesFs(animes);
+    await writeAnimesFs({"animes": animes});
     res.send(`Anime update successfully ${JSON.stringify(updateAnime)}`)
 });
 
-// routerAnime.delete("/delete/:id", async (req, res) => {
-//     let animes = await readAnimesFs();
-//     const anime = animes.find(a => a.id === parseInt(req.params.id));
-//     if(!anime) return res.status(404).send("Anime not found");
-//     animes = animes.filter(a => a.id !== anime.id);
-
-//     await writeAnimesFs(animes);
-//     res.send("Anime deleted successfully");
-
-// });
-
-routerAnime.delete('/:id', async (req,res)=>{
+routerAnime.delete('/deleteAnime', async (req,res)=>{
     const animes = await readAnimesFs();
-    const animeIndex = animes.findIndex(anime => anime.id === parseInt(req.params.id))
+    const animeIndex = animes.findIndex(anime => anime.id === parseInt(req.query.id))
     if(animes === -1) return res.status(404).send('Anime not found')
         const deleteAnime = animes.splice(animeIndex,1)
         await writeAnimesFs(deleteAnime)
