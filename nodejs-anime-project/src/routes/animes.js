@@ -49,7 +49,6 @@ routerAnime.get("/", async (req, res) => {
 
 routerAnime.get("/animeId", async (req, res) => {
     const animes = await readAnimesFs();
-    console.log(req)
     const anime = animes.find(a => a.id === parseInt(req.query.id));
     if(!anime) return res.status(404).send("Anime not found");
     res.json(anime)

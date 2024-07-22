@@ -1,5 +1,8 @@
 {
-    "directores": [
-      
-    ]
-  }
+  "directores": [
+    {
+      "id": 1,
+      "name": "Nombre del director"
+    }
+  ]
+}

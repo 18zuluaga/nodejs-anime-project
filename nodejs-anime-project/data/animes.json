@@ -1,16 +1,5 @@
 {
   "animes": [
-    {
-      "id": 1,
-      "title": "Nombre del anime",
-      "genre": "Género del anime",
-      "studioId": 1
-    },
-    {
-      "id": 2,
-      "title": "Nombre del anime",
-      "genre": "Género del anime",
-      "studioId": 1
-    }
+    
   ]
 }
